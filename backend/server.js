@@ -43,7 +43,6 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://react-generator-frontend.vercel.app",
   "https://react-generator.vercel.app"
 ];
 
