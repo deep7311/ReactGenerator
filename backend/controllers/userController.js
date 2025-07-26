@@ -86,6 +86,8 @@ export const logoutUser = (req, res) => {
   res
     .cookie("token", "", {
       httpOnly: true,
+      sameSite: "none", // must match the login cookie
+      secure: process.env.NODE_ENV === "production",
       expires: new Date(0),
     })
     .status(200)
