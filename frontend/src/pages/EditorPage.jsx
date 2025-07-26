@@ -143,6 +143,7 @@ const EditorPage = () => {
           messages: updatedMessages,
         });
 
+        setInput("");
         toast.success("Component generated");
         setSaveStatus("Saved ✅");
       } else {

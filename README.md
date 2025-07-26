@@ -9,7 +9,6 @@ ReactGenerator/
 └── frontend/
 
 ## ✨ Features
-+
 
 - 🧠 Generate JSX components using natural language prompts
 - 🔁 Refine components iteratively with follow-up inputs
@@ -75,8 +74,8 @@ npm run dev
 
 ## 📦 Deployment
 
-* Frontend: Deployed on [Vercel](https://vercel.com)
-* Backend: Deployed on [Vercel](https://vercel.com)
+* Frontend: Deployed on [Vercel](https://react-generator.vercel.app/)
+* Backend: Deployed on [Vercel](https://react-generator-backendsamerepo.vercel.app)
 
 
 ## 👨‍💻 Author
