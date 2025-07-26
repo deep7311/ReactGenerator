@@ -1,0 +1,38 @@
+# === BACKEND IGNORE ===
+backend/node_modules/
+backend/.env
+backend/.gitignore
+
+# === FRONTEND IGNORE ===
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.env
+frontend/.gitignore
+
+# Logs
+frontend/logs
+frontend/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/lerna-debug.log*
+
+# Editor directories and files (frontend)
+frontend/.vscode/*
+!frontend/.vscode/extensions.json
+frontend/.idea
+frontend/.DS_Store
+frontend/*.suo
+frontend/*.ntvs*
+frontend/*.njsproj
+frontend/*.sln
+frontend/*.sw?
+
+# === OPTIONAL GLOBAL IGNORE (safe to keep) ===
+# Editor settings (if accidentally added at root)
+.vscode/
+.idea/
+.DS_Store
+*.log
