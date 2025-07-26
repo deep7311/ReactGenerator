@@ -83,4 +83,4 @@ npm run dev
 
 * **Deepak Singh Bagaria**
 * BTech CSE @ LPU
-* Portfolio: *coming soon*
+* Portfolio: https://deep7311.github.io/
