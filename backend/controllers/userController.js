@@ -63,7 +63,7 @@ export const loginUser = async (req, res) => {
 
     res.cookie("token", token, {
         httpOnly: true,
-        sameSite: "none",   // change to none deploye ke time par otherwise strict good to go on localhost
+        sameSite: "strict",   // change to none deploye ke time par otherwise strict good to go on localhost
         secure: process.env.NODE_ENV === "production",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
@@ -86,7 +86,7 @@ export const logoutUser = (req, res) => {
   res
     .cookie("token", "", {
       httpOnly: true,
-      sameSite: "none", // must match the login cookie
+      sameSite: "strict", // must match the login cookie
       secure: process.env.NODE_ENV === "production",
       expires: new Date(0),
     })
