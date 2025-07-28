@@ -21,7 +21,7 @@ const app = express();
 // mongoose.connect("mongodb://127.0.0.1:27017/JsxGenerator").then(() => {
 //   console.log("Connected to Local MongoDB");
 //   app.listen(process.env.PORT, () => {
-//     console.log(`Server started at Port ${process.env.PORT}`);
+//     console.log(`Server started at Port ${process.env.PORT}`)
 //   });
 // });
 
