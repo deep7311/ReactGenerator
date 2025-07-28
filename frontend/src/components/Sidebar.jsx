@@ -6,18 +6,17 @@ import { AiOutlineLogout } from "react-icons/ai";
 import axios from "../axios";
 import { toast } from "react-toastify";
 import clsx from "clsx";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.png";
 
 const Sidebar = () => {
   const { user, logout } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
-
   const { sessions, setSessions, fetchSessions } = useAuthContext();
 
   useEffect(() => {
     if (user) fetchSessions();
-  }, [user, location.pathname]); // reload list on route change
+  }, [user, location.pathname]);
 
   const handleNewChat = async () => {
     try {
@@ -26,17 +25,12 @@ const Sidebar = () => {
       });
 
       const { alreadyExists, session } = res.data;
+      alreadyExists
+        ? toast.info("You already have an empty session. Redirecting...")
+        : toast.success("New session created!");
 
-      if (alreadyExists) {
-        toast.info("You already have an empty session. Redirecting...");
-      } else {
-        toast.success("New session created!");
-      }
-
-      // Navigate regardless of whether it already existed or not
       navigate(`/dashboard/editor/${session._id}`);
     } catch (err) {
-      console.error("New session creation error:", err);
       toast.error("Something went wrong while creating a session.");
     }
   };
@@ -46,7 +40,7 @@ const Sidebar = () => {
       await logout();
       toast.success("Logged out successfully");
       navigate("/");
-    } catch (err) {
+    } catch {
       toast.error("Logout failed");
     }
   };
@@ -56,75 +50,81 @@ const Sidebar = () => {
       await axios.delete(`/api/sessions/${id}`);
       toast.success("Session deleted");
       setSessions((prev) => prev.filter((s) => s._id !== id));
-      if (location.pathname === `/editor/${id}`) {
-        navigate("/");
+      if (location.pathname === `/dashboard/editor/${id}`) {
+        navigate("/dashboard");
       }
-    } catch (err) {
+    } catch {
       toast.error("Failed to delete session");
     }
   };
 
   return (
-    <div className="bg-[#1e293b] h-screen p-4 flex flex-col w-64">
-      <h2 className="text-xl font-semibold mb-4 text-center text-white flex items-center justify-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-        <img src={logo} alt="logo" className="w-12 h-12" />
-        <span className="bg-gradient-to-r from-indigo-400 to-pink-500 bg-clip-text text-transparent">Drive JSX</span>
-      </h2>
+    <div className="h-screen w-64 bg-[#0f172a] text-white flex flex-col justify-between p-4 border-r border-slate-700 shadow-lg">
+      {/* Logo + Title */}
+      <div className="flex items-center gap-3 mb-6 cursor-pointer" onClick={() => navigate("/")}>
+        <img src={logo} alt="logo" className="h-8 w-8 rounded-full" />
+        <span className="text-xl font-semibold tracking-wide">Drive JSX</span>
+      </div>
 
+      {/* New Chat Button */}
       <button
         onClick={handleNewChat}
-        className="flex items-center justify-center gap-2 px-4 py-2 mb-6 bg-blue-600 hover:bg-blue-700 text-white rounded transition"
+        className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-4 py-2 rounded-xl shadow-md transition-all duration-200 mb-4"
       >
-        <FiPlus />
+        <FiPlus size={18} />
         New Chat
       </button>
 
-      <div className="flex-1 overflow-y-auto">
+      {/* Session List */}
+      <div className="flex-1 overflow-y-auto hide-scrollbar">
         {sessions.length > 0 ? (
           sessions.map((s) => (
             <div
               key={s._id}
               className={clsx(
-                "flex items-center hover:bg-[#2a3748] justify-between px-3 py-2 rounded mb-2 bg-[#334155] text-white",
-                location.pathname === `/dashboard/editor/${s._id}` &&
-                  "bg-blue-700"
+                "flex items-center justify-between bg-[#1e293b] hover:bg-[#334155] rounded-lg px-3 py-2 mb-2 transition-all group",
+                location.pathname === `/dashboard/editor/${s._id}` && "bg-blue-700"
               )}
             >
               <Link
                 to={`/dashboard/editor/${s._id}`}
-                className="truncate flex-1 mr-2"
+                className="truncate flex-1 mr-2 text-sm font-medium"
               >
                 {s.title || "Untitled Session"}
               </Link>
               <button
                 onClick={() => handleDelete(s._id)}
-                className="text-red-400 hover:text-red-600"
+                className="text-gray-400 hover:text-red-400 transition"
               >
                 <FiTrash2 size={16} />
               </button>
             </div>
           ))
         ) : (
-          <p className="text-sm text-gray-400 text-center">No chats yet</p>
+          <p className="text-gray-400 italic text-sm">No chats yet</p>
         )}
       </div>
 
-      <button
-        onClick={() => navigate("/dashboard")}
-        className="mt-4 mb-2 flex items-center justify-center gap-2 text-white hover:text-cyan-400 cursor-pointer"
-      >
-        🏠 Go to Dashboard
-      </button>
+      {/* Bottom Buttons */}
+      <div className="mt-4 flex flex-col gap-2">
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="w-full bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition"
+        >
+          🏠 Go to Dashboard
+        </button>
 
-      <button
-        onClick={handleLogout}
-        className="mt-4 flex items-center justify-center gap-2 text-red-500 hover:text-red-600 cursor-pointer"
-      >
-        <AiOutlineLogout />
-        Logout
-      </button>
+        <button
+          onClick={handleLogout}
+          className="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition"
+        >
+          <AiOutlineLogout />
+          Logout
+        </button>
+      </div>
     </div>
   );
 };
 
 export default Sidebar;
+
